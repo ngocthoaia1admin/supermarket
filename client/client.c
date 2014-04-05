@@ -5,12 +5,18 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+void write_server(int sockfd) {    
+    char data[] = "<login><username>admin</username><password>123</password></login>\n";
+    write(sockfd, data, strlen(data));
+    close(sockfd);
+}
 int main(int argc, char* argv[]) {
     int sockfd;
     int len;
     struct sockaddr_in address;
     int result;
-    char ch = 'A';
+    char ch = '\n';
     sockfd = socket(PF_INET, SOCK_STREAM, 0);
     address.sin_family = PF_INET;
     address.sin_addr.s_addr = inet_addr("127.0.0.1");
@@ -21,9 +27,10 @@ int main(int argc, char* argv[]) {
         printf("oops: client2");
         exit(1);
     }
-    write(sockfd, &ch, 1);
-    read(sockfd, &ch, 1);
-    printf("Char form server = %c\n", ch);
-    close(sockfd);
+    // write(sockfd, &ch, 1);
+    // read(sockfd, &ch, 1);
+    // printf("Char form server = %c\n", ch);
+    write_server(sockfd);
+   
     exit(0);
 }
