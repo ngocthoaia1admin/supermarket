@@ -9,9 +9,9 @@
 void write_server(int sockfd) {    
     char data[] = "<login><username>admin</username><password>123</password></login>\n";
     write(sockfd, data, strlen(data));
-    close(sockfd);
 }
-int main(int argc, char* argv[]) {
+
+void start_client() {
     int sockfd;
     int len;
     struct sockaddr_in address;
@@ -20,17 +20,26 @@ int main(int argc, char* argv[]) {
     sockfd = socket(PF_INET, SOCK_STREAM, 0);
     address.sin_family = PF_INET;
     address.sin_addr.s_addr = inet_addr("127.0.0.1");
-    address.sin_port = 9734;
+    address.sin_port = 9738;
     len = sizeof(address);
     result = connect(sockfd, (struct sockaddr*) &address, len);
     if(result == -1) {
-        printf("oops: client2");
+        printf("oops: client2\n");
         exit(1);
     }
-    // write(sockfd, &ch, 1);
-    // read(sockfd, &ch, 1);
-    // printf("Char form server = %c\n", ch);
+    // write(sockfd, &ch, 1);   
     write_server(sockfd);
-   
+    while(1) {
+        int rc = read(sockfd, &ch, 1);
+        if(rc < 0) {
+        } else {
+            printf("Char form server = %c\n", ch);
+        }
+    }
+    close(sockfd);
+}
+int main(int argc, char* argv[]) {    
+    start_client();
+    sleep(2);
     exit(0);
 }
