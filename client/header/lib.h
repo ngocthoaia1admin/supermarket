@@ -1,7 +1,6 @@
 #ifndef LIB_H
 #define LIB_H
-typedef enum {
-  false = 0,
-  true = 1
-} bool;
+#include "bool.h"
+bool get_data(int sockfd, char* buffer);
+void send_data(int sockfd, char* buffer);
 #endif

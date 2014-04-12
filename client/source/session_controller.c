@@ -3,23 +3,8 @@
 #include <string.h>
 #include "../header/lib.h"
 #include "../header/xml.h"
+#include "../header/bool.h"
 
-bool get_data(int client_sockfd, char* buffer) {
-    int size = 0;
-    while(1) {
-        int rc = read(client_sockfd, &buffer[size], 1);        
-        if(buffer[size] == '\n') {
-            buffer[size] = '\0';
-            return true;
-        }
-        if(rc <= 0) {
-            //close(client_sockfd);
-            printf("khong doc duoc ket qua\n");
-            return false;
-        }
-        size++;
-    }
-}
 
 bool login(int sockfd) {
     char username[100];
@@ -32,13 +17,19 @@ bool login(int sockfd) {
     strcpy(data_login, "<login>");
     strcat(data_login, (char*) create_tag(username, "<username>"));
     strcat(data_login, (char*) create_tag(password, "<password>"));
-    strcat(data_login, "</login>\n");
-    write(sockfd, data_login, strlen(data_login));
+    strcat(data_login, "</login>");
+    send_data(sockfd, data_login);
+    
     char data_result[1000];
     get_data(sockfd, data_result);
     printf("%s\n", data_result);
 }
 
 bool logout(int sockfd) {
+    char data[1000];
+    strcpy(data, "<logout></logout");
+    send_data(sockfd, data);
 
+    char data_result[1000];
+    get_data(sockfd, data_result);
 }
