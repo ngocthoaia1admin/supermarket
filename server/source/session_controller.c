@@ -1,9 +1,10 @@
-#include "../header/connectdb.h"
-#include "../header/xml.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <mysql.h>
+#include "../header/connectdb.h"
+#include "../header/xml.h"
+#include "../header/lib.h"
 
 void login(char* data, int* user_type, MYSQL* my_connection, int client_sockfd) {
     char username[100];
@@ -39,6 +40,8 @@ void login(char* data, int* user_type, MYSQL* my_connection, int client_sockfd) 
     } else {
         strcpy(data_return, create_tag("success", "<login>"));
     }
-    strcat(data_return, "\n");
-    write(client_sockfd, data_return, strlen(data_return));    
+    send_data(client_sockfd, data_return);
+}
+
+void logout(int client_sockfd) {
 }
