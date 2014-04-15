@@ -8,7 +8,6 @@
 #include <string.h>
 #include <mysql.h>
 #include <time.h>
-#include "../header/bool.h"
 bool get_data(int client_sockfd, char* buffer) {
     int size = 0;
     while(1) {

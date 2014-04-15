@@ -1,7 +1,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "../header/bool.h"
 bool get_data(int sockfd, char* buffer) {
     int size = 0;
     while(1) {
