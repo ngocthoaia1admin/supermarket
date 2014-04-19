@@ -1,4 +1,12 @@
-client : client.o
-	gcc -o client client.o
-client.o : client.c
-	gcc -o client.o -c client.c 
+CC = g++
+CFLAGS=-c
+SOURCES= client.c session_controller.c xml.c lib.c
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE=client
+$(EXECUTABLE) : $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ -lm
+%.o : source/%.c
+	$(CC) $(CFLAGS) $< -o $@
+clean :
+	rm *.o
+	rm $(EXECUTABLE)

@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 MYSQL* connect_db() {
-	MYSQL *my_connection = malloc(sizeof(MYSQL));
+	MYSQL *my_connection = (MYSQL*) malloc(sizeof(MYSQL));
 	mysql_init(my_connection);
 	if(mysql_real_connect(my_connection, "localhost", "root", "123", "supermarket", 0, NULL, 0)) {
 		printf("Connect is successful\n");		
