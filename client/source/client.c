@@ -6,9 +6,16 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../header/lib.h"
+
 void write_server(int sockfd) {    
     char data[] = "<login><username>admin</username><password>123</password></login>\n";
     write(sockfd, data, strlen(data));
+}
+
+void print_menu() {
+    printf("Table list\n");
+    printf("1. login\n");
 }
 
 void start_client() {
@@ -23,17 +30,14 @@ void start_client() {
     address.sin_port = 9738;
     len = sizeof(address);
     result = connect(sockfd, (struct sockaddr*) &address, len);
-    if(result == -1) {
-        printf("oops: client2\n");
-        exit(1);
-    }
-    // write(sockfd, &ch, 1);   
-    write_server(sockfd);
-    while(1) {
-        int rc = read(sockfd, &ch, 1);
-        if(rc < 0) {
-        } else {
-            printf("Char form server = %c\n", ch);
+    print_menu();
+    while(ch != 'q') {
+        printf("Nhap 1 ki tu: ");
+        //ch = getchar();
+        scanf("%c%*c", &ch);
+        if(ch == '1') {
+            login(sockfd);
+            //write_server(sockfd);
         }
     }
     close(sockfd);

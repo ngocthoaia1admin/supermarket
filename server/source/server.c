@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <string.h>
 #include "../header/connectdb.h"
 #include "../header/xml.h"
 #include "../header/function_list.h"
@@ -43,7 +44,7 @@ bool get_data(int client_sockfd, char* buffer) {
 void* service_for_client(void* arg) {
     int time_out = 1;
     time_t last_connect;   
-    int user_type = 0;
+    int user_type = -1;
     int client_sockfd = *((int*)arg);
     char buffer[5000];
     char request_type[100];
@@ -53,15 +54,15 @@ void* service_for_client(void* arg) {
         if(is_connected(client_sockfd)) {
             if(get_data(client_sockfd, buffer)) {
                 get_first_tag(buffer, request_type);
-                login(buffer, &user_type, my_connection);
-                //solve(buffer, user_type, result);            
-                printf("client: %d\n", client_sockfd);
-                printf("request_type: %s\n", request_type);
-                printf("data: %s\n", buffer);
-                printf("user_type: %d\n", user_type);
-                write(client_sockfd, buffer, 20);
-                printf("%c\n", buffer[0]);
-                time(&last_connect);
+                if(strcmp(request_type, "<login>") == 0) {
+                    login(buffer, &user_type, my_connection, client_sockfd);
+                    //solve(buffer, user_type, result);            
+                    printf("client: %d\n", client_sockfd);
+                    printf("request_type: %s\n", request_type);
+                    printf("data: %s\n", buffer);
+                    printf("user_type: %d\n", user_type);               
+                    time(&last_connect);
+                }
             } else {
                 time_t current_time;
                 time(&current_time);
