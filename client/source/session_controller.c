@@ -3,7 +3,6 @@
 #include <string.h>
 #include "../header/lib.h"
 #include "../header/xml.h"
-#include "../header/bool.h"
 
 
 bool login(int sockfd) {

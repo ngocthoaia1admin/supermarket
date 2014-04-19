@@ -1,6 +1,10 @@
 #include "../header/bool.h"
 #include <string.h>
 #include <stdio.h>
+<<<<<<< HEAD
+=======
+#include <unistd.h>
+>>>>>>> finish login-logout
 bool get_data(int sockfd, char* buffer) {
     int size = 0;
     while(1) {
